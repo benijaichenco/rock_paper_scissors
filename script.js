@@ -17,7 +17,12 @@ function getCompChoice() {
 }
 console.log(getCompChoice());
 //generate function to return user's input,
-//generate function to start a rock paper scissors round against the computer
+function getPlayerChoice() {
+    let input = prompt('type rock, paper or scissors:', '');
+    input = input.toLowerCase();
+    console.log(input);
+}
+//generate function to start a rock paper scissors round against the computer,
 //show computer selection on console log,
 //show player selection on console log,
 //generate if else for when player and computer choose rock paper or scissors,
