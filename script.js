@@ -72,3 +72,8 @@ function playRound(playerSelection, compSelection) {
 //show computer score on console log,
 //show player score on console log,
 //generate a function that invokes the game start function 5 times,
+function game() {
+    for (i = 0; i < 5; i++) {
+        playRound();
+    }
+}
