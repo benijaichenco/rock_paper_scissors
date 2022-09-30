@@ -1,6 +1,16 @@
 //create rock paper scissors variables,
+let rock;
+let paper;
+let scissors;
 //create win lose draw variables,
+let win;
+let lose;
+let tie;
 //create score variables,
+let compScore;
+let playerScore;
+//create choices variable,
+const choices = ['rock', 'paper', 'scissors'];
 //generate function to return rock paper or scissors randomly,
 //generate function to return user's input,
 //generate function to start a rock paper scissors round against the computer
