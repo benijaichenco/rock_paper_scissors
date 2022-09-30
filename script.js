@@ -12,6 +12,10 @@ let playerScore;
 //create choices variable,
 const choices = ['rock', 'paper', 'scissors'];
 //generate function to return rock paper or scissors randomly,
+function getCompChoice() {
+    return choices[Math.floor(Math.random()*choices.length)];
+}
+console.log(getCompChoice());
 //generate function to return user's input,
 //generate function to start a rock paper scissors round against the computer
 //show computer selection on console log,
