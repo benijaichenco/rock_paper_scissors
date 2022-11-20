@@ -1,79 +1,108 @@
-//create rock paper scissors variables,
-let rock;
-let paper;
-let scissors;
 //create score variables,
-let compScore = 0;
+let computerScore = 0;
 let playerScore = 0;
+let computerResult = 0;
+let playerResult = 0;
+//create rock paper scissors variables,
+const rps = ['rock', 'paper', 'scissors'];
+//create variables to select buttons
+const buttons = document.querySelectorAll('button');
+//create variable for 'content'
+const content = document.createElement('div');
+content.classList = 'content';
+//create variables to display round details
+const score = document.querySelector('.score');
+score.textContent = `${playerResult} - ${computerResult}`
+const roundChoice = document.createElement('div');
+const roundResult = document.createElement('div');
+const roundScore = document.createElement('div');
+const matchResult = document.createElement('div');
+//create a variable to select the container in the HTML
+const container = document.querySelector('.container');
+//create variable for a play again button
+const playAgain = document.createElement('button');
+playAgain.textContent = 'Play Again!';
+//generate a play again function
+function restart() {
+    content.removeChild(matchResult);
+    content.removeChild(playAgain);
+    container.removeChild(content);
+    for (const btn of button) {
+        btn.disabled = false;
+    }
+    playerScore = 0;
+    computerScore = 0;}
+
 //create win lose draw variables,
 function win() {
-    console.log('Player won this round!');
-    playerScore += 1;
-    compScore += 0;
-    console.log('Player Score: ' + playerScore);
-    console.log('Computer Score: ' + compScore);
+    roundResult.textContent = 'Player won this round!';
+    playerScore++;
 }
 function lose() {
-    console.log('Computer won this round!');
-    playerScore += 0;
-    compScore += 1;
-    console.log('Player Score: ' + playerScore);
-    console.log('Computer Score: ' + compScore);
+    roundResult.textContent = 'Computer won this round!';
+    computerScore++;
 }
 function tie() {
-    console.log('Draw!');
-    playerScore += 0;
-    compScore += 0;
-    console.log('Player Score: ' + playerScore);
-    console.log('Computer Score: ' + compScore);
+    roundResult.textContent = 'Draw!';
 }
-//create choices variable,
-const choices = ['rock', 'paper', 'scissors'];
 //generate function to return rock paper or scissors randomly,
-function getCompChoice() {
-    return choices[Math.floor(Math.random()*choices.length)];
+function getComputerChoice() {
+    return rps[Math.floor(Math.random()*rps.length)];
 }
-console.log(getCompChoice());
 //generate function to return user's input,
-function getPlayerChoice() {
-    let input = prompt('type rock, paper or scissors:', '');
-    input = input.toLowerCase();
-    return input;
-}
+const button = Array.from(buttons);
+button.forEach(button => {
+    button.addEventListener('click', () => {
+        if (button.id == 'rock') {
+            playRound('rock');
+        } else if (button.id == 'paper') {
+            playRound('paper');
+        } else if (button.id == 'scissors') {
+            playRound('scissors');
+        }
+        //add content to nodeList when buttons are pressed
+        container.appendChild(content);
+    });
+});
+
 //generate function to start a rock paper scissors round against the computer,
 function playRound(playerSelection, compSelection) {
-    compSelection = getCompChoice();
-    console.log('Computer Selected: ' + compSelection);
-    playerSelection = getPlayerChoice();
-    console.log('Player selected: ' + playerSelection);
-    if (playerSelection == 'rock' && compSelection == 'rock') {
-        return tie();
-    } else if (playerSelection == 'rock' && compSelection == 'paper') {
-        return lose();
-    } else if (playerSelection == 'rock' && compSelection == 'scissors') {
-        return win();
-    } else if (playerSelection == 'paper' && compSelection == 'rock') {
-        return win();
-    } else if (playerSelection == 'paper' && compSelection == 'paper') {
-        return tie();
-    } else if (playerSelection == 'paper' && compSelection == 'scissors') {
-        return lose();
-    } else if (playerSelection == 'scissors' && compSelection == 'rock') {
-        return lose();
-    } else if (playerSelection == 'scissors' && compSelection == 'paper') {
-        return win();
-    } else if (playerSelection == 'scissors' && compSelection == 'scissors') {
-        return tie();
+    compSelection = getComputerChoice();
+    roundChoice.textContent = 'Player selected: ' + playerSelection + ' Computer Selected: ' + compSelection;
+    if (compSelection === playerSelection) {
+        tie();
+    } else if (playerSelection === 'rock') {
+        compSelection === 'paper' ? lose() : win();
+    } else if (playerSelection === 'paper') {
+        compSelection === 'scissors' ? lose() : win();
+    } else if (playerSelection === 'scissors') {
+        compSelection === 'rock' ? lose() : win();
+    }
+    //display game details
+    roundScore.textContent = `Player score: ${playerScore}, computer score: ${computerScore}`;
+    content.appendChild(roundChoice);
+    content.appendChild(roundResult);
+    content.appendChild(roundScore);
+    //if one of contestants reaches 5 points, display win message
+    if (playerScore === 5) {
+        matchResult.textContent = 'Player defeated the computer!';
+        content.appendChild(matchResult);
+        score.textContent = `${++playerResult} - ${computerResult}`
+    } else if (computerScore === 5) {
+        matchResult.textContent = 'Computer defeated player!';
+        content.appendChild(matchResult);
+        score.textContent = `${playerResult} - ${++computerResult}`
+        
+    }
+    //generate a function that adds a 'play again' button
+    if (playerScore === 5 || computerScore === 5) {
+        for (const btn of buttons) {
+            btn.disabled = true;
+        }
+        content.appendChild(playAgain);
+        playAgain.addEventListener('click', restart);
     }
 }
-//show computer selection on console log,
-//show player selection on console log,
-//generate if else for when player and computer choose rock paper or scissors,
-//show computer score on console log,
-//show player score on console log,
-//generate a function that invokes the game start function 5 times,
-function game() {
-    for (i = 0; i < 5; i++) {
-        playRound();
-    }
-}
+
+
+
